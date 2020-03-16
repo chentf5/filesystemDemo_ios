@@ -10,26 +10,30 @@
 #import "FileListViewController.h"
 #import "TextViewController.h"
 #import "DetailsViewController.h"
+#import "../View/MoveView.h"
 #define WIDTH self.view.frame.size.width
 #define HIGHT self.view.frame.size.height
-
+UITextField *textField1;
 @interface FileListViewController()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView *fileList;
-@property(nonatomic,strong)NSArray *filesArray;
+@property(nonatomic,strong)NSMutableArray *filesArray;
+//@property(nonatomic,strong)NSMutableArray *filesMuArray;
 @property(nonatomic,strong)NSMutableArray *filesDetails;
 //@property(nonatomic,strong)UIAlertController *detailsView;
 @property(nonatomic,strong)UIView *detailsView;
+@property(nonatomic)NSInteger fileNumber;
+
+//从下弹出框
+
 @end
 
 
-@implementation FileListViewController  {
-    NSInteger fileNumber;
-}
+@implementation FileListViewController
 - (void)viewWillAppear:(BOOL)animated   {
     [super viewWillAppear:YES];
     //数据初始化
     [self getDataFromDOC];
-    fileNumber = self.filesArray.count;
+    //self.fileNumber = self.filesArray.count;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -118,7 +122,7 @@
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return fileNumber;
+    return self.filesArray.count;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView   {
     return 1;
@@ -169,10 +173,12 @@
     NSString *folderpath = [NSString stringWithFormat:@"%@/%@",docPath,_foldername];
     NSLog(@"%@",folderpath);
     NSFileManager *fm = [NSFileManager defaultManager];
-    
-    self.filesArray = [fm contentsOfDirectoryAtPath:folderpath error:nil];
-    NSLog(@"subpath = %@",self.filesArray);
+    NSArray *tfilesArray = [fm contentsOfDirectoryAtPath:folderpath error:nil];
+    NSLog(@"subpath = %@",tfilesArray);
+    self.filesArray = [NSMutableArray arrayWithArray:tfilesArray];
     self.filesDetails = [[NSMutableArray alloc]init];
+    
+    
     for(id filestr in self.filesArray) {
         NSError *error;
         NSString *nowfilePath = [NSString stringWithFormat:@"%@/%@",folderpath,filestr];
@@ -201,7 +207,13 @@
        }else   {
            
        }
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject];
     
+    NSString *folderpath = [NSString stringWithFormat:@"%@/%@",docPath,_foldername];
+    NSLog(@"%@",folderpath);
+    NSFileManager *fm = [NSFileManager defaultManager];
+    //此时选择文件路径
+    NSString *filePath = [folderpath stringByAppendingFormat:@"/%@",self.filesArray[indexPath.row]];
     if(longPress.state == UIGestureRecognizerStateBegan)    {
         NSLog(@"begin....");
        
@@ -213,11 +225,86 @@
           //响应事件
           NSLog(@"action = %@", action);
       }];
+        
+        
+        //重命名
+    UIAlertAction *renamefile = [UIAlertAction actionWithTitle:@"重命名" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        UIAlertController *input = [UIAlertController alertControllerWithTitle:@"重命名" message:@"输入新名字（不含后缀）" preferredStyle:UIAlertControllerStyleAlert];
+       //添加文本框
+       [input addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+           //设置键盘输入为数字键盘
+           //textField.keyboardType = UIKeyboardTypeNumberPad;
+           textField.placeholder = @"请填写";
+           textField1 = textField;
+       }];
+
+       UIAlertAction *cancelBtn = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+           //取消
+       }];
+       [input addAction: cancelBtn];
+           
+       //添加确定按钮
+       UIAlertAction *confirmBtn = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+           //文本框结束编辑，收起键盘
+           NSLog(@"%@",textField1.text);
+           textField1 = [input.textFields firstObject];
+           NSString *movPath = [self reFileName:filePath andtoName:textField1.text];
+           
+       }];
+       [input addAction: confirmBtn];
+        [self presentViewController:input animated:YES completion:^{
+            
+        }];
+        
+        
+    }];
+        
+    //删除
     UIAlertAction* deleteAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDestructive
      handler:^(UIAlertAction * action) {
          //响应事件
          NSLog(@"action = %@", action);
+        
+        UIAlertController *deleteAlert = [UIAlertController alertControllerWithTitle:@"是否删除" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *yes = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            //删除文件or文件夹操作
+            NSError *error;
+            NSLog(@"%@",filePath);
+            bool isSuccess = [fm removeItemAtPath:filePath error:&error];
+            if(isSuccess)   {
+                NSLog(@"删除成功");
+                
+                [self.filesArray removeObjectAtIndex:indexPath.row];
+                //[self getDataFromDOC];
+                [self.fileList reloadData];
+
+
+                UIAlertController *SuccessTip = [UIAlertController alertControllerWithTitle:@"成功删除" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+
+                }];
+                [SuccessTip addAction:sure];
+                [self presentViewController:SuccessTip animated:YES completion:nil];
+            }
+            
+            if(error)   {
+                NSLog(@"%@",error);
+            }
+            
+            
+        }];
+        
+        [deleteAlert addAction:yes];
+        UIAlertAction *no = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [deleteAlert addAction:no];
+        [self presentViewController:deleteAlert animated:YES completion:^{
+            NSLog(@"delete the folder or the file");
+        }];
+        
+        
      }];
+    //查看信息
     UIAlertAction* detailAction = [UIAlertAction actionWithTitle:@"查看信息" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
          NSLog(@"action = %@", action);
         
@@ -233,19 +320,63 @@
         
         
      }];
+        
+    //复制
     UIAlertAction* copyAction = [UIAlertAction actionWithTitle:@"复制" style:UIAlertActionStyleDefault
         handler:^(UIAlertAction * action) {
             //响应事件
-            NSLog(@"action = %@", action);
+          NSLog(@"action = %@", action);
+        
+          NSString *now_filename =  self.filesArray[indexPath.row];
+          NSArray *nametemp = [now_filename componentsSeparatedByString:@"."];
+        
+        NSString *toURLStr = [NSString stringWithFormat:@"%@/%@的副本.%@",folderpath,[nametemp firstObject],[nametemp lastObject]];
+        
+        NSLog(@"%@",toURLStr);
+        NSData *fileData = [self readFileData:filePath];
+        bool isCreateSuccess = [fm createFileAtPath:toURLStr contents:fileData attributes:nil];
+        if(isCreateSuccess)   {
+            NSLog(@"成功复制");
+            //[self.filesArray add:indexPath.row];
+            [self getDataFromDOC];
+            [self.fileList reloadData];
+
+
+            UIAlertController *SuccessTip = [UIAlertController alertControllerWithTitle:@"成功复制" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+
+            }];
+            [SuccessTip addAction:sure];
+            [self presentViewController:SuccessTip animated:YES completion:nil];
+        }else {
+            NSLog(@"复制失败");
+        }
         }];
+        
+        
+        
+        
+        
+      
+    //移动到
     UIAlertAction* moveAction = [UIAlertAction actionWithTitle:@"移动" style:UIAlertActionStyleDefault
     handler:^(UIAlertAction * action) {
         //响应事件
         NSLog(@"action = %@", action);
+        MoveView *nowView = [[MoveView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HIGHT)];
+        [nowView showView:self.view];
+
     }];
+        
+        
+        
+        
+        
+        
     [alert addAction:detailAction];
     [alert addAction:copyAction];
     [alert addAction:moveAction];
+    [alert addAction:renamefile];
     [alert addAction:cancelAction];
     [alert addAction:deleteAction];
     [self presentViewController:alert animated:YES completion:nil];
@@ -264,48 +395,54 @@
 
     [self.navigationController pushViewController:editArticle animated:YES];
 }
-//- (void)encodeWithCoder:(nonnull NSCoder *)coder {
-//
-//}
 
-//- (void)traitCollectionDidChange:(nullable UITraitCollection *)previousTraitCollection {
-//    <#code#>
-//}
 
-//- (void)preferredContentSizeDidChangeForChildContentContainer:(nonnull id<UIContentContainer>)container {
-//    <#code#>
-//}
 
-//- (CGSize)sizeForChildContentContainer:(nonnull id<UIContentContainer>)container withParentContainerSize:(CGSize)parentSize {
-//    <#code#>
-//}
 
-//- (void)systemLayoutFittingSizeDidChangeForChildContentContainer:(nonnull id<UIContentContainer>)container {
-//    <#code#>
-//}
+//读文件数据
+- (NSData*)readFileData:(NSString *)path{
+    NSFileHandle *handle = [NSFileHandle fileHandleForReadingAtPath:path];
+    NSData *fileData = [handle readDataToEndOfFile];
+    [handle closeFile];
+    return fileData;
+}
 
-//- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(nonnull id<UIViewControllerTransitionCoordinator>)coordinator {
-//    <#code#>
-//}
+//文件重命名
+- (NSString *)reFileName:(NSString *)filePath andtoName:(NSString *)tofilePath {
+    
+    NSString *lastPathComponent = [NSString new];
+    //获取文件名： 视频.MP4
+    lastPathComponent = [filePath lastPathComponent];
+    //获取后缀：MP4
+    NSString *pathExtension = [filePath pathExtension];
+    //用传过来的路径创建新路径 首先去除文件名
+    NSString *pathNew = [filePath stringByReplacingOccurrencesOfString:lastPathComponent withString:@""];
+    //然后拼接新文件名：新文件名为当前的：年月日时分秒 yyyyMMddHHmmss
+    NSString *moveToPath = [NSString stringWithFormat:@"%@%@.%@",pathNew,tofilePath,pathExtension];
+    NSLog(@"%@",moveToPath);
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    //通过移动该文件对文件重命名
+    BOOL isSuccess = [fileManager moveItemAtPath:filePath toPath:moveToPath error:nil];
+    if (isSuccess) {
+        NSLog(@"rename success");
+        [self getDataFromDOC];
+        [self.fileList reloadData];
 
-//- (void)willTransitionToTraitCollection:(nonnull UITraitCollection *)newCollection withTransitionCoordinator:(nonnull id<UIViewControllerTransitionCoordinator>)coordinator {
-//    <#code#>
-//}
-//
-//- (void)didUpdateFocusInContext:(nonnull UIFocusUpdateContext *)context withAnimationCoordinator:(nonnull UIFocusAnimationCoordinator *)coordinator {
-//    <#code#>
-//}
-//
-//- (void)setNeedsFocusUpdate {
-//    <#code#>
-//}
-//
-//- (BOOL)shouldUpdateFocusInContext:(nonnull UIFocusUpdateContext *)context {
-//    <#code#>
-//}
-//
-//- (void)updateFocusIfNeeded {
-//    <#code#>
-//}
+
+        UIAlertController *SuccessTip = [UIAlertController alertControllerWithTitle:@"重命名成功" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+
+        }];
+        [SuccessTip addAction:sure];
+        [self presentViewController:SuccessTip animated:YES completion:nil];
+    }else{
+        NSLog(@"rename fail");
+    }
+    
+    return moveToPath;
+}
+
+
+//文件夹重命名
 
 @end

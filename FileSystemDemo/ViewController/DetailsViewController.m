@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DetailsViewController.h"
-#import "../View/DetailsView.h"
+
 #import <Masonry.h>
 #define WIDTH self.view.frame.size.width
 #define HIGHT self.view.frame.size.height
@@ -59,7 +59,7 @@
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    UITableViewCell *cell = [[DetailsView alloc]initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"cellID"];
+    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"cellID"];
     long rowIndex = indexPath.row;
     [cell setSeparatorInset:UIEdgeInsetsZero];
     NSDateFormatter *format = [[NSDateFormatter alloc]init];
