@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,12 +16,15 @@
 		2B56A01A241629C60010045A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B56A019241629C60010045A /* main.m */; };
 		2B56A024241629C60010045A /* FileSystemDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B56A023241629C60010045A /* FileSystemDemoTests.m */; };
 		2B56A02F241629C60010045A /* FileSystemDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B56A02E241629C60010045A /* FileSystemDemoUITests.m */; };
-		2B56A04224165D280010045A /* test.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2B56A04124165D280010045A /* test.pdf */; };
 		2B56A04524173E1E0010045A /* IndexViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B56A04424173E1E0010045A /* IndexViewController.m */; };
 		2B56A048241745C60010045A /* TextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B56A047241745C60010045A /* TextViewController.m */; };
 		2B56A04B241891560010045A /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B56A04A241891470010045A /* libsqlite3.tbd */; };
 		2B56A04E241B87780010045A /* FileListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B56A04D241B87780010045A /* FileListViewController.m */; };
 		2B56A050241BB6940010045A /* icon in Resources */ = {isa = PBXBuildFile; fileRef = 2B56A04F241BB6940010045A /* icon */; };
+		2B77187C241E367700274A64 /* FilesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B77187B241E367700274A64 /* FilesController.m */; };
+		2B771880241F1AA100274A64 /* DetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B77187F241F1AA100274A64 /* DetailsView.m */; };
+		2B771883241F572600274A64 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B771882241F572600274A64 /* DetailsViewController.m */; };
+		54BBCEF9900B3A14A1871F0B /* Pods_FileSystemDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F0EF30C4ACDEB39D235307D /* Pods_FileSystemDemo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,7 +63,6 @@
 		2B56A02A241629C60010045A /* FileSystemDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FileSystemDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B56A02E241629C60010045A /* FileSystemDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileSystemDemoUITests.m; sourceTree = "<group>"; };
 		2B56A030241629C60010045A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2B56A04124165D280010045A /* test.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = test.pdf; path = ../../../../../Downloads/test.pdf; sourceTree = "<group>"; };
 		2B56A04324173E130010045A /* IndexViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IndexViewController.h; sourceTree = "<group>"; };
 		2B56A04424173E1E0010045A /* IndexViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IndexViewController.m; sourceTree = "<group>"; };
 		2B56A046241745BD0010045A /* TextViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextViewController.h; sourceTree = "<group>"; };
@@ -69,6 +71,15 @@
 		2B56A04C241B876A0010045A /* FileListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileListViewController.h; sourceTree = "<group>"; };
 		2B56A04D241B87780010045A /* FileListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileListViewController.m; sourceTree = "<group>"; };
 		2B56A04F241BB6940010045A /* icon */ = {isa = PBXFileReference; lastKnownFileType = folder; path = icon; sourceTree = "<group>"; };
+		2B77187A241E366C00274A64 /* FilesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FilesController.h; sourceTree = "<group>"; };
+		2B77187B241E367700274A64 /* FilesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FilesController.m; sourceTree = "<group>"; };
+		2B77187E241F1A9600274A64 /* DetailsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailsView.h; sourceTree = "<group>"; };
+		2B77187F241F1AA100274A64 /* DetailsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsView.m; sourceTree = "<group>"; };
+		2B771881241F571A00274A64 /* DetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
+		2B771882241F572600274A64 /* DetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
+		9F0EF30C4ACDEB39D235307D /* Pods_FileSystemDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FileSystemDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A63E56C2632E493EC2C2EFD1 /* Pods-FileSystemDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FileSystemDemo.release.xcconfig"; path = "Target Support Files/Pods-FileSystemDemo/Pods-FileSystemDemo.release.xcconfig"; sourceTree = "<group>"; };
+		C6A89C7BF5675BFD503E3573 /* Pods-FileSystemDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FileSystemDemo.debug.xcconfig"; path = "Target Support Files/Pods-FileSystemDemo/Pods-FileSystemDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +88,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B56A04B241891560010045A /* libsqlite3.tbd in Frameworks */,
+				54BBCEF9900B3A14A1871F0B /* Pods_FileSystemDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,6 +117,7 @@
 				2B56A02D241629C60010045A /* FileSystemDemoUITests */,
 				2B56A005241629C30010045A /* Products */,
 				2B56A049241891470010045A /* Frameworks */,
+				312F92D33E211BFAEB268A16 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -121,6 +134,7 @@
 		2B56A006241629C30010045A /* FileSystemDemo */ = {
 			isa = PBXGroup;
 			children = (
+				2B77187D241F1A6E00274A64 /* View */,
 				2B56A04024165CCC0010045A /* Resource */,
 				2B56A03D24162A2D0010045A /* ViewController */,
 				2B56A007241629C30010045A /* AppDelegate.h */,
@@ -165,6 +179,10 @@
 				2B56A047241745C60010045A /* TextViewController.m */,
 				2B56A04C241B876A0010045A /* FileListViewController.h */,
 				2B56A04D241B87780010045A /* FileListViewController.m */,
+				2B77187A241E366C00274A64 /* FilesController.h */,
+				2B77187B241E367700274A64 /* FilesController.m */,
+				2B771881241F571A00274A64 /* DetailsViewController.h */,
+				2B771882241F572600274A64 /* DetailsViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -173,7 +191,6 @@
 			isa = PBXGroup;
 			children = (
 				2B56A04F241BB6940010045A /* icon */,
-				2B56A04124165D280010045A /* test.pdf */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -182,8 +199,27 @@
 			isa = PBXGroup;
 			children = (
 				2B56A04A241891470010045A /* libsqlite3.tbd */,
+				9F0EF30C4ACDEB39D235307D /* Pods_FileSystemDemo.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2B77187D241F1A6E00274A64 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2B77187E241F1A9600274A64 /* DetailsView.h */,
+				2B77187F241F1AA100274A64 /* DetailsView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		312F92D33E211BFAEB268A16 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C6A89C7BF5675BFD503E3573 /* Pods-FileSystemDemo.debug.xcconfig */,
+				A63E56C2632E493EC2C2EFD1 /* Pods-FileSystemDemo.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,9 +229,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2B56A033241629C60010045A /* Build configuration list for PBXNativeTarget "FileSystemDemo" */;
 			buildPhases = (
+				3060087B3345DE0C172F0017 /* [CP] Check Pods Manifest.lock */,
 				2B56A000241629C30010045A /* Sources */,
 				2B56A001241629C30010045A /* Frameworks */,
 				2B56A002241629C30010045A /* Resources */,
+				4115C4FE296E50B2986B5A5F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -289,7 +327,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B56A04224165D280010045A /* test.pdf in Resources */,
 				2B56A050241BB6940010045A /* icon in Resources */,
 				2B56A017241629C60010045A /* LaunchScreen.storyboard in Resources */,
 				2B56A014241629C60010045A /* Assets.xcassets in Resources */,
@@ -313,14 +350,59 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3060087B3345DE0C172F0017 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FileSystemDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4115C4FE296E50B2986B5A5F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FileSystemDemo/Pods-FileSystemDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FileSystemDemo/Pods-FileSystemDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FileSystemDemo/Pods-FileSystemDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		2B56A000241629C30010045A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				2B56A04E241B87780010045A /* FileListViewController.m in Sources */,
+				2B771883241F572600274A64 /* DetailsViewController.m in Sources */,
 				2B56A00F241629C30010045A /* ViewController.m in Sources */,
+				2B771880241F1AA100274A64 /* DetailsView.m in Sources */,
 				2B56A048241745C60010045A /* TextViewController.m in Sources */,
+				2B77187C241E367700274A64 /* FilesController.m in Sources */,
 				2B56A009241629C30010045A /* AppDelegate.m in Sources */,
 				2B56A01A241629C60010045A /* main.m in Sources */,
 				2B56A00C241629C30010045A /* SceneDelegate.m in Sources */,
@@ -491,9 +573,15 @@
 		};
 		2B56A034241629C60010045A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C6A89C7BF5675BFD503E3573 /* Pods-FileSystemDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry/Masonry.framework/Headers\"",
+					"${SRCROOT}/**",
+				);
 				INFOPLIST_FILE = FileSystemDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -507,6 +595,7 @@
 		};
 		2B56A035241629C60010045A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A63E56C2632E493EC2C2EFD1 /* Pods-FileSystemDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

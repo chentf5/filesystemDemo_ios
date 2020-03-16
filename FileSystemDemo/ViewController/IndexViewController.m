@@ -29,7 +29,9 @@
     self.tabbar.delegate = self;
     self.title = @"文件";
     self.tabbar.selectedIndex = 0;
-    
+    //添加右边按钮
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewFile)];
+    self.navigationItem.rightBarButtonItem = addButton;
 }
 - (UITabBarController *)tabbar {
     if(_tabbar == nil)  {
@@ -39,7 +41,9 @@
         firstVC.tabBarItem.title = @"文件";
         firstVC.tabBarItem.image = [UIImage imageNamed:@"icon/folder_icon_1_18"];
         firstVC.tabBarItem.selectedImage = [UIImage imageNamed:@"icon/folder_select_icon_1_18"];
-        firstVC.view.backgroundColor = [UIColor grayColor];
+        //firstVC.view.backgroundColor = [UIColor grayColor];
+        firstVC.foldername = @"t";
+        
         [_tabbar addChildViewController:firstVC];
         
         UIViewController *MyVC = [[UIViewController alloc]init];
@@ -50,7 +54,7 @@
         [_tabbar addChildViewController:MyVC];
        
         //tabbar样式
-        _tabbar.tabBar.tintColor = [UIColor blackColor];
+       // _tabbar.tabBar.tintColor = [UIColor blackColor];
         //
         [[UITabBarItem appearance]setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} forState:UIControlStateNormal];
         
@@ -77,5 +81,12 @@
     
     
 
-
+- (void)addNewFile  {
+    TextViewController *editArticle = [[TextViewController alloc]init];
+    //防止push时应为背景颜色透明而出现视图重叠
+    editArticle.view.backgroundColor = [UIColor whiteColor];
+    
+    
+    [self.navigationController pushViewController:editArticle animated:YES];
+}
 @end

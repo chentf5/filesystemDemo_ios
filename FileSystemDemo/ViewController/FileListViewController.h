@@ -13,6 +13,6 @@
 #import<Foundation/Foundation.h>
 
 @interface FileListViewController : UIViewController
-
+@property(nonatomic,strong) NSString *foldername;
 @end
 #endif /* FileListViewController_h */
