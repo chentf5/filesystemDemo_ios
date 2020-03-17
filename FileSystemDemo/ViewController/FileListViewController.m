@@ -28,20 +28,32 @@ UITextField *textField1;
 @end
 
 
-@implementation FileListViewController
+@implementation FileListViewController  {
+    NSString *docPath;
+       
+}
 - (void)viewWillAppear:(BOOL)animated   {
     [super viewWillAppear:YES];
     //数据初始化
     [self getDataFromDOC];
+    docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject];
     //self.fileNumber = self.filesArray.count;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     //UI 初始化
     [self.view addSubview:self.fileList];
-    //添加右上按钮
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewFile)];
-    self.navigationItem.rightBarButtonItem = addButton;
+    NSMutableArray *btnArray = [NSMutableArray arrayWithCapacity:2];
+    
+    UIBarButtonItem *addFile = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"icon/addfile"] style:UIBarButtonItemStyleDone target:self action:@selector(addNewFile)];
+    [btnArray addObject:addFile];
+    //创建文件夹
+    UIBarButtonItem *addFolder = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon/addfolder"] style:UIBarButtonItemStyleDone target:self action:@selector(addNewFolder)];
+    [btnArray addObject:addFolder];
+    
+    self.navigationController.navigationBar.topItem.rightBarButtonItems = btnArray;
+    
+    
     //数据源协议委托
     self.fileList.delegate = self;
     self.fileList.dataSource = self;
@@ -86,12 +98,15 @@ UITextField *textField1;
 #pragma mark UITableViewDelegate method
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:nil];
+    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cellID"];
+  if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellID"];
+    }
     NSInteger rowIndex = indexPath.row;
-    NSLog(@"count %ld",self.filesDetails.count);
+    //NSLog(@"count %ld",self.filesDetails.count);
     NSDictionary *nowfile = [self.filesDetails objectAtIndex:rowIndex];
     
-    NSLog(@"cell for %@",nowfile);
+    //NSLog(@"cell for %@",nowfile);
     //判断
     //title
     cell.textLabel.text = [self.filesArray objectAtIndex:rowIndex];
@@ -107,7 +122,7 @@ UITextField *textField1;
     NSString *detailsText = [NSString stringWithFormat:@"上次访问时间: %@",modifyStr];
     cell.detailTextLabel.text = detailsText;
     NSString *fileType = [nowfile valueForKey:@"NSFileType"];
-    NSLog(@"%@",fileType);
+    //NSLog(@"%@",fileType);
     
     if([fileType isEqualToString:@"NSFileTypeDirectory"])  {
         [cell.imageView setImage:[UIImage imageNamed:@"icon/folder_icon_18"]];
@@ -136,12 +151,13 @@ UITextField *textField1;
     NSInteger rowIndex = indexPath.row;
     NSDictionary *nowfile = [self.filesDetails objectAtIndex:rowIndex];
     NSString *nextfoldername = [NSString stringWithFormat:@"%@/%@",self.foldername,[self.filesArray objectAtIndex:rowIndex]];
-    NSLog(@"%@",nextfoldername);
+    //NSLog(@"%@",nextfoldername);
     NSString *fileType = [nowfile valueForKey:@"NSFileType"];
     if([fileType isEqualToString:@"NSFileTypeDirectory"])  {
         FileListViewController *next = [[FileListViewController alloc]init];
         [next setFoldername:nextfoldername];
         [self.navigationController pushViewController:next animated:YES];
+        
         
     }else if([fileType isEqualToString:@"NSFileTypeRegular"])    {
         
@@ -171,10 +187,10 @@ UITextField *textField1;
     NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject];
     
     NSString *folderpath = [NSString stringWithFormat:@"%@/%@",docPath,_foldername];
-    NSLog(@"%@",folderpath);
+    //NSLog(@"%@",folderpath);
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *tfilesArray = [fm contentsOfDirectoryAtPath:folderpath error:nil];
-    NSLog(@"subpath = %@",tfilesArray);
+    //NSLog(@"subpath = %@",tfilesArray);
     self.filesArray = [NSMutableArray arrayWithArray:tfilesArray];
     self.filesDetails = [[NSMutableArray alloc]init];
     
@@ -184,16 +200,16 @@ UITextField *textField1;
         NSString *nowfilePath = [NSString stringWithFormat:@"%@/%@",folderpath,filestr];
         NSDictionary *details = [[NSFileManager defaultManager] attributesOfItemAtPath:nowfilePath error:&error];
         if(error == nil)    {
-            NSLog(@"%@",details);
+            //NSLog(@"%@",details);
             
         }else {
-            NSLog(@"%@",error);
+            //NSLog(@"%@",error);
             
         }
         
         [self.filesDetails addObject:details];
     }
-    NSLog(@"alll%@",self.filesDetails);
+    //NSLog(@"alll%@",self.filesDetails);
 }
 
 //长按事件
@@ -203,19 +219,19 @@ UITextField *textField1;
     NSIndexPath *indexPath = [self.fileList indexPathForRowAtPoint:point];
        if(indexPath == nil)    {
            
-           NSLog(@"error, no tableview");
+           //NSLog(@"error, no tableview");
        }else   {
            
        }
     NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject];
     
     NSString *folderpath = [NSString stringWithFormat:@"%@/%@",docPath,_foldername];
-    NSLog(@"%@",folderpath);
+    //NSLog(@"%@",folderpath);
     NSFileManager *fm = [NSFileManager defaultManager];
     //此时选择文件路径
     NSString *filePath = [folderpath stringByAppendingFormat:@"/%@",self.filesArray[indexPath.row]];
     if(longPress.state == UIGestureRecognizerStateBegan)    {
-        NSLog(@"begin....");
+        //NSLog(@"begin....");
        
     //显示弹出框列表选择
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
@@ -223,7 +239,7 @@ UITextField *textField1;
     UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel
       handler:^(UIAlertAction * action) {
           //响应事件
-          NSLog(@"action = %@", action);
+          //NSLog(@"action = %@", action);
       }];
         
         
@@ -247,7 +263,7 @@ UITextField *textField1;
        //添加确定按钮
        UIAlertAction *confirmBtn = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
            //文本框结束编辑，收起键盘
-           NSLog(@"%@",textField1.text);
+//           //NSLog(@"%@",textField1.text);
            textField1 = [input.textFields firstObject];
            NSString *movPath = [self reFileName:filePath andtoName:textField1.text];
            
@@ -264,16 +280,16 @@ UITextField *textField1;
     UIAlertAction* deleteAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDestructive
      handler:^(UIAlertAction * action) {
          //响应事件
-         NSLog(@"action = %@", action);
+         //NSLog(@"action = %@", action);
         
         UIAlertController *deleteAlert = [UIAlertController alertControllerWithTitle:@"是否删除" message:@"" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *yes = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
             //删除文件or文件夹操作
             NSError *error;
-            NSLog(@"%@",filePath);
+            //NSLog(@"%@",filePath);
             bool isSuccess = [fm removeItemAtPath:filePath error:&error];
             if(isSuccess)   {
-                NSLog(@"删除成功");
+                //NSLog(@"删除成功");
                 
                 [self.filesArray removeObjectAtIndex:indexPath.row];
                 //[self getDataFromDOC];
@@ -289,7 +305,7 @@ UITextField *textField1;
             }
             
             if(error)   {
-                NSLog(@"%@",error);
+                //NSLog(@"%@",error);
             }
             
             
@@ -299,14 +315,14 @@ UITextField *textField1;
         UIAlertAction *no = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
         [deleteAlert addAction:no];
         [self presentViewController:deleteAlert animated:YES completion:^{
-            NSLog(@"delete the folder or the file");
+            //NSLog(@"delete the folder or the file");
         }];
         
         
      }];
     //查看信息
     UIAlertAction* detailAction = [UIAlertAction actionWithTitle:@"查看信息" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-         NSLog(@"action = %@", action);
+         //NSLog(@"action = %@", action);
         
         
         NSDictionary *now = self.filesDetails[indexPath.row];
@@ -325,31 +341,30 @@ UITextField *textField1;
     UIAlertAction* copyAction = [UIAlertAction actionWithTitle:@"复制" style:UIAlertActionStyleDefault
         handler:^(UIAlertAction * action) {
             //响应事件
-          NSLog(@"action = %@", action);
+          //NSLog(@"action = %@", action);
         
           NSString *now_filename =  self.filesArray[indexPath.row];
           NSArray *nametemp = [now_filename componentsSeparatedByString:@"."];
         
         NSString *toURLStr = [NSString stringWithFormat:@"%@/%@的副本.%@",folderpath,[nametemp firstObject],[nametemp lastObject]];
         
-        NSLog(@"%@",toURLStr);
+        //NSLog(@"%@",toURLStr);
         NSData *fileData = [self readFileData:filePath];
         bool isCreateSuccess = [fm createFileAtPath:toURLStr contents:fileData attributes:nil];
         if(isCreateSuccess)   {
-            NSLog(@"成功复制");
+            //NSLog(@"成功复制");
             //[self.filesArray add:indexPath.row];
             [self getDataFromDOC];
             [self.fileList reloadData];
 
 
-            UIAlertController *SuccessTip = [UIAlertController alertControllerWithTitle:@"成功复制" message:@"" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-
-            }];
-            [SuccessTip addAction:sure];
-            [self presentViewController:SuccessTip animated:YES completion:nil];
+            [self showTip:@"复制成功"];
         }else {
-            NSLog(@"复制失败");
+            //NSLog(@"复制失败");
+            [self.fileList reloadData];
+
+
+            [self showTip:@"复制失败"];
         }
         }];
         
@@ -362,9 +377,25 @@ UITextField *textField1;
     UIAlertAction* moveAction = [UIAlertAction actionWithTitle:@"移动" style:UIAlertActionStyleDefault
     handler:^(UIAlertAction * action) {
         //响应事件
-        NSLog(@"action = %@", action);
-        MoveView *nowView = [[MoveView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HIGHT)];
+        //NSLog(@"action = %@", action);
+        MoveView *nowView = [[MoveView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HIGHT) andFolderName:@"t" andPath:filePath];
+        
         [nowView showView:self.view];
+        
+        
+        [self.filesArray removeObjectAtIndex:indexPath.row];
+        //[self getDataFromDOC];
+        [self.fileList reloadData];
+
+//        NSInteger ncount = self.filesArray.count;
+//        if(pount == ncount) {
+//            [self showTip:@"移动失败"];
+//        }
+//        else {
+//            [self showTip:@"移动成功"];
+//        }
+        
+       
 
     }];
         
@@ -382,7 +413,7 @@ UITextField *textField1;
     [self presentViewController:alert animated:YES completion:nil];
 
     }else if(longPress.state == UIGestureRecognizerStateEnded)  {
-        NSLog(@"end....");
+        //NSLog(@"end....");
     }
    
 }
@@ -396,7 +427,48 @@ UITextField *textField1;
     [self.navigationController pushViewController:editArticle animated:YES];
 }
 
+//添加文件夹
 
+- (void)addNewFolder {
+    NSLog(@"file");
+    UIAlertController *addNewFolder = [UIAlertController alertControllerWithTitle:@"创建文件夹" message:@"输入文件夹名称" preferredStyle:UIAlertControllerStyleAlert];
+    [addNewFolder addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"输入文件夹名称";
+    }];
+    
+    UIAlertAction *add = [UIAlertAction actionWithTitle:@"新建" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        NSString *docPathtemp = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject];
+        NSString *newPath = [NSString stringWithFormat:@"%@/t/%@",docPathtemp,[addNewFolder.textFields firstObject].text];
+        NSLog(@"%@",newPath);
+        NSFileManager *fm = [NSFileManager defaultManager];
+        NSError *error;
+        [fm createDirectoryAtPath:newPath withIntermediateDirectories:YES attributes:nil error:&error];
+        if(error == nil)    {
+            [self showTip:@"创建文件夹成功"];
+            
+            [self getDataFromDOC];
+            [self.fileList reloadData];
+            
+        }else {
+            [self showTip:@"创建文件夹失败"];
+        }
+    }];
+    [addNewFolder addAction:add];
+    UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [addNewFolder addAction:cancle];
+     [self presentViewController:addNewFolder animated:YES completion:^{
+               //NSLog(@"delete the folder or the file");
+         
+        
+           
+     }];
+    
+    
+    
+    
+}
 
 
 //读文件数据
@@ -417,14 +489,14 @@ UITextField *textField1;
     NSString *pathExtension = [filePath pathExtension];
     //用传过来的路径创建新路径 首先去除文件名
     NSString *pathNew = [filePath stringByReplacingOccurrencesOfString:lastPathComponent withString:@""];
-    //然后拼接新文件名：新文件名为当前的：年月日时分秒 yyyyMMddHHmmss
+   
     NSString *moveToPath = [NSString stringWithFormat:@"%@%@.%@",pathNew,tofilePath,pathExtension];
-    NSLog(@"%@",moveToPath);
+    //NSLog(@"%@",moveToPath);
     NSFileManager *fileManager = [NSFileManager defaultManager];
     //通过移动该文件对文件重命名
     BOOL isSuccess = [fileManager moveItemAtPath:filePath toPath:moveToPath error:nil];
     if (isSuccess) {
-        NSLog(@"rename success");
+        //NSLog(@"rename success");
         [self getDataFromDOC];
         [self.fileList reloadData];
 
@@ -436,7 +508,7 @@ UITextField *textField1;
         [SuccessTip addAction:sure];
         [self presentViewController:SuccessTip animated:YES completion:nil];
     }else{
-        NSLog(@"rename fail");
+        //NSLog(@"rename fail");
     }
     
     return moveToPath;
@@ -444,5 +516,20 @@ UITextField *textField1;
 
 
 //文件夹重命名
+
+
+
+//成功or失败提示
+- (void)showTip:(NSString *)tip {
+    UIAlertController *SuccessTip = [UIAlertController alertControllerWithTitle:tip message:@"" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+
+    }];
+    [SuccessTip addAction:sure];
+    [self presentViewController:SuccessTip animated:YES completion:nil];
+}
+
+
+
 
 @end

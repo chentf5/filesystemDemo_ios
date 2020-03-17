@@ -42,7 +42,7 @@
         containeriTitle.widthTracksTextView = YES;
         _articleTitle = [[UITextView alloc]initWithFrame:CGRectMake(0, 200, WIDTH, 100) textContainer:containeriTitle];
         _articleTitle.scrollEnabled = NO;
-        //_articleTitle
+        
     }
     return _articleTitle;
 }

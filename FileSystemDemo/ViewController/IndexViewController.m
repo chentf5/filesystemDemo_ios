@@ -29,9 +29,17 @@
     self.tabbar.delegate = self;
     self.title = @"文件";
     self.tabbar.selectedIndex = 0;
-    //添加右边按钮
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewFile)];
-    self.navigationItem.rightBarButtonItem = addButton;
+//    //添加右边按钮
+//        //添加右上按钮  创建文件 & 创建文件夹
+//    NSMutableArray *btnArray = [NSMutableArray arrayWithCapacity:2];
+//    
+//    UIBarButtonItem *addFile = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"icon/addfile"] style:UIBarButtonItemStyleDone target:self action:@selector(addNewFile)];
+//    [btnArray addObject:addFile];
+//    //创建文件夹
+//    UIBarButtonItem *addFolder = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon/addfolder"] style:UIBarButtonItemStyleDone target:self action:@selector(addNewFolder)];
+//    [btnArray addObject:addFolder];
+//    
+//    self.navigationController.navigationBar.topItem.rightBarButtonItems = btnArray;
 }
 - (UITabBarController *)tabbar {
     if(_tabbar == nil)  {
@@ -88,5 +96,11 @@
     
     
     [self.navigationController pushViewController:editArticle animated:YES];
+}
+                                  
+                                  
+                                  
+- (void)addNewFolder {
+    NSLog(@"index");
 }
 @end

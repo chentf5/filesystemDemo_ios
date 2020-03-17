@@ -12,9 +12,14 @@
 #import<Foundation/Foundation.h>
 
 @interface MoveView : UIView
+@property(nonatomic,strong) NSString *foldername;
 - (void)showView:(UIView *)firstView;
 - (void)hideView;
-
+- (instancetype)initWithFrame:(CGRect)frame andFolderName:(NSString *)folder andPath:(NSString *)path;
+- (void)refreshViewData;
+@property(nonatomic,strong) UIButton *moveBtn;
+@property(nonatomic,strong) NSString *toPath;
+@property(nonatomic,strong) NSString *fromPath;
 @end
 
 #endif /* MoveView_h */
