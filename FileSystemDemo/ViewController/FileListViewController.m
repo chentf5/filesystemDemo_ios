@@ -11,8 +11,8 @@
 #import "TextViewController.h"
 #import "DetailsViewController.h"
 #import "../View/MoveView.h"
-#define WIDTH self.view.frame.size.width
-#define HIGHT self.view.frame.size.height
+#define WIDTH [UIScreen mainScreen].bounds.size.width
+#define HEIGHT [UIScreen mainScreen].bounds.size.height
 UITextField *textField1;
 @interface FileListViewController()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView *fileList;
@@ -43,6 +43,7 @@ UITextField *textField1;
     [super viewDidLoad];
     //UI 初始化
     [self.view addSubview:self.fileList];
+    self.title = @"文件";
     NSMutableArray *btnArray = [NSMutableArray arrayWithCapacity:2];
     
     UIBarButtonItem *addFile = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"icon/addfile"] style:UIBarButtonItemStyleDone target:self action:@selector(addNewFile)];
@@ -78,7 +79,7 @@ UITextField *textField1;
 }
 - (UITableView *)fileList   {
     if(_fileList == nil)    {
-        _fileList = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HIGHT) style:UITableViewStylePlain];
+        _fileList = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) style:UITableViewStylePlain];
         
         
     }
@@ -378,7 +379,7 @@ UITextField *textField1;
     handler:^(UIAlertAction * action) {
         //响应事件
         //NSLog(@"action = %@", action);
-        MoveView *nowView = [[MoveView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HIGHT) andFolderName:@"t" andPath:filePath];
+        MoveView *nowView = [[MoveView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) andFolderName:@"t" andPath:filePath];
         
         [nowView showView:self.view];
         
@@ -422,7 +423,10 @@ UITextField *textField1;
     TextViewController *editArticle = [[TextViewController alloc]init];
     //防止push时应为背景颜色透明而出现视图重叠
     editArticle.view.backgroundColor = [UIColor whiteColor];
-
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject];
+    
+    NSString *folderpath = [NSString stringWithFormat:@"%@/%@",docPath,_foldername];
+    [editArticle setFolderPath:folderpath];
 
     [self.navigationController pushViewController:editArticle animated:YES];
 }

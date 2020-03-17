@@ -12,7 +12,7 @@
 #import <Foundation/Foundation.h>
 
 @interface TextViewController : UIViewController
-
+@property(nonatomic,strong)NSString *folderPath;
 @end
 
 #endif /* TextViewController_h */

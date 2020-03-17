@@ -22,7 +22,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //self.navigationController.navigationBarHidden = YES;
+    self.navigationController.navigationBarHidden = YES;
     //self.tabBarItem.title =  @"me";
     [self.view addSubview:self.tabbar.view];
     [self addChildViewController:self.tabbar];
@@ -43,7 +43,6 @@
 }
 - (UITabBarController *)tabbar {
     if(_tabbar == nil)  {
-        _tabbar = [[UITabBarController alloc]init];
         
         FileListViewController *firstVC = [[FileListViewController alloc]init];
         firstVC.tabBarItem.title = @"文件";
@@ -51,15 +50,18 @@
         firstVC.tabBarItem.selectedImage = [UIImage imageNamed:@"icon/folder_select_icon_1_18"];
         //firstVC.view.backgroundColor = [UIColor grayColor];
         firstVC.foldername = @"t";
-        
-        [_tabbar addChildViewController:firstVC];
+        _tabbar = [[UITabBarController alloc]init];
+        UINavigationController *first = [[UINavigationController alloc]initWithRootViewController:firstVC];
+        [_tabbar addChildViewController:first];
         
         UIViewController *MyVC = [[UIViewController alloc]init];
         MyVC.tabBarItem.title = @"我的";
         MyVC.tabBarItem.image = [UIImage imageNamed:@"icon/me_icon_18"];
         MyVC.tabBarItem.selectedImage = [UIImage imageNamed:@"icon/me_select_icon_18"];
-       
-        [_tabbar addChildViewController:MyVC];
+       _tabbar = [[UITabBarController alloc]init];
+       UINavigationController *second = [[UINavigationController alloc]initWithRootViewController:MyVC];
+        [_tabbar addChildViewController:first];
+        [_tabbar addChildViewController:second];
        
         //tabbar样式
        // _tabbar.tabBar.tintColor = [UIColor blackColor];
@@ -89,18 +91,9 @@
     
     
 
-- (void)addNewFile  {
-    TextViewController *editArticle = [[TextViewController alloc]init];
-    //防止push时应为背景颜色透明而出现视图重叠
-    editArticle.view.backgroundColor = [UIColor whiteColor];
-    
-    
-    [self.navigationController pushViewController:editArticle animated:YES];
-}
+
                                   
                                   
                                   
-- (void)addNewFolder {
-    NSLog(@"index");
-}
+
 @end
