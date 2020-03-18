@@ -22,13 +22,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationController.navigationBarHidden = YES;
-    //self.tabBarItem.title =  @"me";
     [self.view addSubview:self.tabbar.view];
-    [self addChildViewController:self.tabbar];
     self.tabbar.delegate = self;
     self.title = @"文件";
     self.tabbar.selectedIndex = 0;
+    self.navigationController.navigationBarHidden = YES;
 //    //添加右边按钮
 //        //添加右上按钮  创建文件 & 创建文件夹
 //    NSMutableArray *btnArray = [NSMutableArray arrayWithCapacity:2];
@@ -52,6 +50,7 @@
         firstVC.foldername = @"t";
         _tabbar = [[UITabBarController alloc]init];
         UINavigationController *first = [[UINavigationController alloc]initWithRootViewController:firstVC];
+        
         [_tabbar addChildViewController:first];
         
         UIViewController *MyVC = [[UIViewController alloc]init];

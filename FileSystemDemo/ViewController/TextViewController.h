@@ -13,6 +13,8 @@
 
 @interface TextViewController : UIViewController
 @property(nonatomic,strong)NSString *folderPath;
+@property(nonatomic,strong)NSString *filename;
+@property(nonatomic)BOOL isread;
 @end
 
 #endif /* TextViewController_h */

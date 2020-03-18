@@ -49,7 +49,6 @@
 - (UITableView *)detailsTable   {
     if(_detailsTable == nil)    {
         _detailsTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HIGHT) style:UITableViewStylePlain];
-        //给tablView添加着两句配合好约束就再也不用计算高度了
         _detailsTable.estimatedRowHeight = 80.0;
         _detailsTable.rowHeight = UITableViewAutomaticDimension;
         _detailsTable.separatorStyle = UITableViewCellSeparatorStyleNone;

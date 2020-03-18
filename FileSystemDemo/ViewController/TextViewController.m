@@ -10,6 +10,8 @@
 #import <sqlite3.h>
 #import "TextViewController.h"
 #import <Masonry/Masonry.h>
+#import <IQKeyboardManager.h>
+#import <IQKeyboardReturnKeyHandler.h>
 #define WIDTH [UIScreen mainScreen].bounds.size.width
 #define HEIGHT [UIScreen mainScreen].bounds.size.height
 #define RGBCOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:a]
@@ -21,18 +23,42 @@
 @property(nonatomic,strong) UILabel *tip;
 @property(nonatomic,strong) UITextView *articleWord;
 @property(nonatomic,strong) UILabel *wordplach;
-
+@property(nonatomic,strong) NSString *preStr;
 @end
 
 @implementation TextViewController  {
-    //sqlite3 *_db;
+    //sqlite3 *_db
+    int spase;
+    
 }
+
+
+- (void)viewWillAppear:(BOOL)animated{
+     [super viewWillAppear:YES];
+     //点击背景收回键盘
+     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
+     manager.enable =YES;// 控制整个功能是否启用。
+     manager.shouldResignOnTouchOutside =YES;//控制点击背景是否收起键盘
+     manager.shouldToolbarUsesTextFieldTintColor =YES;//控制键盘上的工具条文字颜色是否用户自定义
+     manager.toolbarDoneBarButtonItemText =@"完成";//将右边Done改成完成
+    manager.enableAutoToolbar =YES;// 控制是否显示键盘上的工具条
+    //[manager set:100];
+    //manager.toolbarManageBehaviour =IQAutoToolbarByTag;//最新版的设置键盘的returnKey的关键字 ,可以点击键盘上的next键，自动跳转到下一个输入框，最后一个输入框点击完成，自动收起键盘。
+      
+     //_returnKeyHander = [[IQKeyboardReturnKeyHandler alloc] initWithViewController:self];
+ }
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [[IQKeyboardManager sharedManager] setKeyboardDistanceFromTextField:10];
+ }
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationController.navigationBarHidden = NO;
-    self.navigationController.title = @"写文章";
-    
+    //self.navigationController.title = @"写文章";
+    [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
    
     
     self.articleTitle.delegate = self;
@@ -43,18 +69,18 @@
     // _articleTitle.userInteractionEnabled = NO;
      self.articleTitle.autoresizingMask = UIViewAutoresizingFlexibleHeight;
      [self.articleTitle setFont:[UIFont systemFontOfSize:20.0]];
-   
+   self.articleTitle.toolbarPlaceholder = @"输入文件名称";
     [self.view addSubview:self.articleTitle];
     self.articleTitle.tag = 0;
     //打开数据库
     //[self openSqlDataBase];
-    UIToolbar * topView = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-    [topView setBarStyle:UIBarStyleDefault];
-    UIBarButtonItem * btnSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStyleDone target:self action:@selector(dismissKeyBoard)];
-    NSArray * buttonsArray = [NSArray arrayWithObjects:btnSpace, doneButton, nil];
-    [topView setItems:buttonsArray];
-    [self.articleTitle setInputAccessoryView:topView];
+//    UIToolbar * topView = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+//    [topView setBarStyle:UIBarStyleDefault];
+//    UIBarButtonItem * btnSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+//    UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStyleDone target:self action:@selector(dismissKeyBoard)];
+//    NSArray * buttonsArray = [NSArray arrayWithObjects:btnSpace, doneButton, nil];
+//    [topView setItems:buttonsArray];
+//    [self.articleTitle setInputAccessoryView:topView];
     
     
     self.articleWord.tag = 1;
@@ -65,34 +91,44 @@
       self.articleWord.autoresizingMask = UIViewAutoresizingFlexibleHeight;
       [self.articleWord setFont:[UIFont systemFontOfSize:18.0]];
     [self.view addSubview:self.articleWord];
-     [self.articleWord setInputAccessoryView:topView];
+    self.articleWord.toolbarPlaceholder = @"输入文件内容";
+     //[self.articleWord setInputAccessoryView:topView];
     //self.articleWord.backgroundColor = [UIColor blackColor];
     
-    UIToolbar * topView2 = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-    [topView2 setBarStyle:UIBarStyleDefault];
-    UIBarButtonItem * btnSpace2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    UIBarButtonItem * doneButton2 = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStyleDone target:self action:@selector(dismissKeyBoard2)];
-    NSArray * buttonsArray2 = [NSArray arrayWithObjects:btnSpace2, doneButton2, nil];
-    [topView2 setItems:buttonsArray2];
-    [self.articleWord setInputAccessoryView:topView2];
+//    UIToolbar * topView2 = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+//    [topView2 setBarStyle:UIBarStyleDefault];
+//    UIBarButtonItem * btnSpace2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+//    UIBarButtonItem * doneButton2 = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStyleDone target:self action:@selector(dismissKeyBoard2)];
+//    NSArray * buttonsArray2 = [NSArray arrayWithObjects:btnSpace2, doneButton2, nil];
+//    [topView2 setItems:buttonsArray2];
+//    [self.articleWord setInputAccessoryView:topView2];
     
+   // self.automaticallyAdjustsScrollViewInsets=NO;
     
+    [self setupPlaceHolder];
     
-     [self setupPlaceHolder];
     [self UIset];
     
-    
+//    //监听事件，防止键盘遮挡
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardDidShowNotification object:nil];
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillHidden:) name:UIKeyboardDidHideNotification object:nil];
     
     
     //右上按钮
      NSMutableArray *btnArray = [NSMutableArray arrayWithCapacity:2];
-    UIBarButtonItem *save = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"icon/addfile"] style:UIBarButtonItemStyleDone target:self action:@selector(saveFile)];
+    UIBarButtonItem *save = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"icon/save"] style:UIBarButtonItemStyleDone target:self action:@selector(saveFile)];
     [btnArray addObject:save];
     //创建文件夹
-    UIBarButtonItem *cancle = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon/addfolder"] style:UIBarButtonItemStyleDone target:self action:@selector(cancleSave)];
+    UIBarButtonItem *cancle = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon/cancle"] style:UIBarButtonItemStyleDone target:self action:@selector(cancleSave)];
     [btnArray addObject:cancle];
     
-    self.navigationController.navigationBar.topItem.rightBarButtonItems = btnArray;
+    self.navigationItem.rightBarButtonItems = btnArray;
+    
+    
+    
+    
+    //读文件时数据初始化
+    [self readFile];
 }
 
 - (UITextView *)articleTitle    {
@@ -145,6 +181,13 @@
     placeHolder3.contentMode = UIViewContentModeTop;
     //placeHolder3.backgroundColor = [UIColor blackColor];
     [self.articleWord addSubview:self.wordplach];
+    
+    
+    if(self.isread) {
+        self.titleplach.alpha = 0;
+        self.wordplach.alpha = 0;
+    }
+    
 }
 //UIset
 - (void)UIset {
@@ -172,7 +215,7 @@
     [self.articleWord mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.tip.mas_bottom).offset(0);
         make.left.equalTo(self.view.mas_left).with.offset(15.0);
-        make.bottom.equalTo(self.view.mas_bottom).with.offset(0);
+        make.bottom.equalTo(self.view.mas_bottom).with.offset(-100);
         make.right.equalTo(self.view.mas_right).offset(-15.0);
     }];
     [self.wordplach mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -207,6 +250,9 @@
             self.wordplach.alpha = 0;
     
         }
+        
+        
+        
     }
     
 }
@@ -233,6 +279,11 @@
 
 
 
+// Called when the UIKeyboardDidShowNotification is sent.
+
+
+// Called when the UIKeyboardWillHideNotification is sent
+
 
 //关闭键盘
 -(void) dismissKeyBoard{
@@ -250,10 +301,27 @@
     NSString *content = self.articleWord.text;
     NSData *data =  [content dataUsingEncoding:NSUTF8StringEncoding];
     NSFileManager *fm = [NSFileManager defaultManager];
-    NSError *error;
-    [fm createFileAtPath:nowPath contents:data attributes:nil];
-    [self showTip:@"成功创建文件"];
-    [self.navigationController popViewControllerAnimated:YES];
+    //NSError *error;
+    if(fileName == nil || [fileName isEqualToString:@""])  {
+        [self showTip:@"文件名为空,创建失败"];
+    }else {
+        if(self.isread) {
+            
+            if([self.preStr isEqualToString:content])   {
+                NSLog(@"nothing change");
+            }else {
+                NSFileHandle *handle = [NSFileHandle fileHandleForWritingAtPath:nowPath];
+                [handle writeData:data];
+                [self showTip:@"修改文件成功"];
+            }
+            
+        }else {
+            [fm createFileAtPath:nowPath contents:data attributes:nil];
+            [self showTip:@"成功创建文件"];
+        }
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
     
 }
 
@@ -270,8 +338,46 @@
 
     }];
     [SuccessTip addAction:sure];
-    [self presentViewController:SuccessTip animated:YES completion:nil];
+    [self.view.window.rootViewController presentViewController:SuccessTip animated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+
+
+//读文件时数据初始化
+- (void)readFile    {
+    NSLog(@"test");
+    if(self.isread)  {
+        NSString *nowPath = [NSString stringWithFormat:@"%@/%@",self.folderPath,self.filename];
+        NSData *now = [self readFileData:nowPath];
+        NSLog(@"%@",nowPath);
+        NSString *content = [[NSString alloc]initWithData:now encoding:NSUTF8StringEncoding];
+        self.preStr = content;
+        self.articleWord.text = content;
+        //NSString *filename = [sel lastPathComponent];
+        self.articleTitle.text = self.filename;
+        NSLog(@"%@",self.filename);
+        NSLog(@"%@",content);
+        NSLog(@"raead");
+        
+        
+        self.articleTitle.userInteractionEnabled = NO;
+    }
+}
+- (NSData*)readFileData:(NSString *)path{
+    NSFileHandle *handle = [NSFileHandle fileHandleForReadingAtPath:path];
+    NSData *fileData = [handle readDataToEndOfFile];
+    [handle closeFile];
+    return fileData;
+}
+
+
+//键盘监听事件
+
+//- (void)dealloc
+//{
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
+//}
 
 //数据库操作
 //打开数据库

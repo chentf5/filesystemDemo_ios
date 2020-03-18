@@ -13,9 +13,8 @@
     // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
     self.window = [[UIWindow alloc]initWithWindowScene:(UIWindowScene *)scene];
     IndexViewController *root = [[IndexViewController alloc]init];
-    
-    
     self.window.backgroundColor=[UIColor whiteColor];
+    
     self.window.rootViewController = root;
    
 }

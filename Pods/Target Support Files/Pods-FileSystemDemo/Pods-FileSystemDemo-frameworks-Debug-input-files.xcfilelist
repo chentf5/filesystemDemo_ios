@@ -1,2 +1,3 @@
 ${PODS_ROOT}/Target Support Files/Pods-FileSystemDemo/Pods-FileSystemDemo-frameworks.sh
+${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework
 ${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework

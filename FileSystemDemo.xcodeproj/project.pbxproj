@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B51EEC72422218000AC7047 /* FolderHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B51EEC62422218000AC7047 /* FolderHandle.m */; };
 		2B56A009241629C30010045A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B56A008241629C30010045A /* AppDelegate.m */; };
 		2B56A00C241629C30010045A /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B56A00B241629C30010045A /* SceneDelegate.m */; };
 		2B56A00F241629C30010045A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B56A00E241629C30010045A /* ViewController.m */; };
@@ -46,6 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2B51EEC52422217400AC7047 /* FolderHandle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FolderHandle.h; sourceTree = "<group>"; };
+		2B51EEC62422218000AC7047 /* FolderHandle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FolderHandle.m; sourceTree = "<group>"; };
 		2B56A004241629C30010045A /* FileSystemDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FileSystemDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B56A007241629C30010045A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2B56A008241629C30010045A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -184,6 +187,8 @@
 				2B56A04D241B87780010045A /* FileListViewController.m */,
 				2B771881241F571A00274A64 /* DetailsViewController.h */,
 				2B771882241F572600274A64 /* DetailsViewController.m */,
+				2B51EEC52422217400AC7047 /* FolderHandle.h */,
+				2B51EEC62422218000AC7047 /* FolderHandle.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -407,6 +412,7 @@
 				2B56A00F241629C30010045A /* ViewController.m in Sources */,
 				2B56A048241745C60010045A /* TextViewController.m in Sources */,
 				2B56A009241629C30010045A /* AppDelegate.m in Sources */,
+				2B51EEC72422218000AC7047 /* FolderHandle.m in Sources */,
 				2B77188F24207F2E00274A64 /* FileModel.m in Sources */,
 				2B77188C241F8DAF00274A64 /* DetailsView.m in Sources */,
 				2B56A01A241629C60010045A /* main.m in Sources */,

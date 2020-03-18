@@ -29,6 +29,7 @@
 
 
 @property(nonatomic,strong) UIButton *closeBtn;
+@property(nonatomic,strong) UIView *parentView;
 
 @end
 
@@ -83,15 +84,15 @@
         [self addSubview:_contentView];
         // 右上角关闭按钮
         self.closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.closeBtn.frame = CGRectMake(self.contentView.frame.size.width-35, 10, 20, 20);
-        [self.closeBtn setImage:[UIImage imageNamed:@"icon/close"] forState:UIControlStateNormal];
+        self.closeBtn.frame = CGRectMake(self.contentView.frame.size.width-40, 10, 20, 20);
+        [self.closeBtn setImage:[UIImage imageNamed:@"icon/cancle"] forState:UIControlStateNormal];
         [self.closeBtn setImage:[UIImage imageNamed:@"icon/close_select"] forState:UIControlStateSelected];
         [self.closeBtn addTarget:self action:@selector(hideView) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:self.closeBtn];
         //移动按钮
         self.moveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.moveBtn.frame = CGRectMake(self.contentView.frame.size.width-55, 10, 20, 20);
-        [self.moveBtn setImage:[UIImage imageNamed:@"icon/move"] forState:UIControlStateNormal];
+        self.moveBtn.frame = CGRectMake(self.contentView.frame.size.width-70, 10, 20, 20);
+        [self.moveBtn setImage:[UIImage imageNamed:@"icon/move1"] forState:UIControlStateNormal];
         [self.moveBtn setImage:[UIImage imageNamed:@"icon/move_select"] forState:UIControlStateSelected];
         
         [self.moveBtn addTarget:self action:@selector(moveFile) forControlEvents:UIControlEventTouchUpInside];
@@ -105,6 +106,7 @@
     if(!firstView) return;
     [firstView addSubview:self];
     [firstView addSubview:self.contentView];
+    //self.parentView = firstView;
     [self.contentView setFrame:CGRectMake(0, self.frame.size.height, self.frame.size.width, self.frame.size.height-LENView)];
     
     [UIView animateWithDuration:0.3 animations:^{
@@ -490,8 +492,10 @@
         }
     }
     [self hideView];
-    [self refreshViewData];
+   // [self refreshViewData];
     
 }
+
+
 
 @end
