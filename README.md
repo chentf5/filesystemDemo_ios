@@ -1,4 +1,15 @@
 # filesystemDemo_ios
+
+
+- 使用方法
+```
+git clone 
+
+pod install
+
+然后可以直接run
+```
+
 一个简单的文件管理，使用ios沙盒存储文本文件
 文件系统Demo开发梳理文档
 
